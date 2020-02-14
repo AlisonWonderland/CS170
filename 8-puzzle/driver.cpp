@@ -4,13 +4,18 @@ using namespace std;
 
 vector<int> getDefaultPuzzle()
 {
-    vector<int> defaultPuzzle = {
-        1,2,3,
-        4,5,6,
-        0,7,8
+    // vector<int> defaultPuzzle = {
+    //     1,2,3,
+    //     4,5,6,
+    //     0,7,8
+    // };
+
+    vector<int> defaultPuzzle2 = {
+        1, 2,
+        0, 3
     };
 
-    return defaultPuzzle;
+    return defaultPuzzle2;
 }
 
 int main()
@@ -19,6 +24,7 @@ int main()
     int number = 0;
     int algoChoice = 0;
     vector<int> userPuzzle;
+    // int* userPuzzle;
 
     cout << "Welcome to mlean002s 8-puzzle solver.\n"
         << "Type \"1\" to use a default puzzle or \"2\" to enter your own puzzle." 
@@ -32,40 +38,40 @@ int main()
         // cout << userPuzzle[0] << endl;
     }
 
-    else if(userChoice == 2) 
-    {
-        cout << "Enter your puzzle, use a zero to represent the blank" << endl;
-        cout << "Enter the first row, use space or tabs between numbers:" << endl;
-        for(int i = 0; i < 3; ++i)
-        {
-            cin >> number;
-            userPuzzle.push_back(number);
-        }
-        cout << "Enter the second row, use space or tabs between numbers:" << endl;
-        for(int i = 0; i < 3; ++i)
-        {
-            cin >> number;
-            userPuzzle.push_back(number);
-        }
-        cout << "Enter the third row, use space or tabs between numbers:" << endl;
-        for(int i = 0; i < 3; ++i)
-        {
-            cin >> number;
-            userPuzzle.push_back(number);
-        }
+    // else if(userChoice == 2) 
+    // {
+    //     cout << "Enter your puzzle, use a zero to represent the blank" << endl;
+    //     cout << "Enter the first row, use space or tabs between numbers:" << endl;
+    //     for(int i = 0; i < 3; ++i)
+    //     {
+    //         cin >> number;
+    //         userPuzzle.push_back(number);
+    //     }
+    //     cout << "Enter the second row, use space or tabs between numbers:" << endl;
+    //     for(int i = 0; i < 3; ++i)
+    //     {
+    //         cin >> number;
+    //         userPuzzle.push_back(number);
+    //     }
+    //     cout << "Enter the third row, use space or tabs between numbers:" << endl;
+    //     for(int i = 0; i < 3; ++i)
+    //     {
+    //         cin >> number;
+    //         userPuzzle.push_back(number);
+    //     }
 
-        int len = 0;
-        cout << "Confirming your puzzle: " << endl;
-        for(int i = 0; i < userPuzzle.size(); ++i)
-        {
-            cout << userPuzzle[i] << " ";
-            ++len;
-            if((len % 3 == 0) && (len != 0))
-            {
-                cout << endl;
-            }
-        }
-    }
+    //     int len = 0;
+    //     cout << "Confirming your puzzle: " << endl;
+    //     for(int i = 0; i < userPuzzle.size(); ++i)
+    //     {
+    //         cout << userPuzzle[i] << " ";
+    //         ++len;
+    //         if((len % 3 == 0) && (len != 0))
+    //         {
+    //             cout << endl;
+    //         }
+    //     }
+    // }
 
     cout << endl;
     // Set the game up
