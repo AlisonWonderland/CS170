@@ -6,9 +6,20 @@ using namespace std;
 //     this.puzzleToSolve = puzzle;
 // }
 
-Tree::Tree(State state)
+Tree::Tree()
 {
-    this.frontier.push_back(state)
+    this->root = NULL;
+}
+
+Tree::Tree(Node* root)
+{
+    this->frontier.push(root);
+    this->root = root;
+}
+
+queue<Node*> Tree::getFrontier()
+{
+    return this->frontier;
 }
 
 void Tree::addFrontierNode()
@@ -20,8 +31,8 @@ void Tree::expandNode()
 {
 
 }
-
-void Tree::addNode()
-{
+// add children
+// void Tree::addNode()
+// {
     
-}
+// }

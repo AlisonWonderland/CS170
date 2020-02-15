@@ -3,8 +3,6 @@ start with 4-puzzle
 generate a tree.
 add nodes that are available, check for dupes, if for one node there is a dupe, don't create child, if there is two dupes, then stop expanding, return null?
 
-Test out the tree first
-
 thoughts:
 generate tree in algo?
 keep fronteir and visited in algo
@@ -25,4 +23,16 @@ Initialize node with this init puzzle
 Create a tree with this init node as root.
 In the algo add it to frontier, then visited as we expand. add a visited check
 if expansion/ legal operations create children add them to frontier and tree. repeat this and previous line, until no more in frontier.
+```
+
+```
+compile: g++ test.cpp Tree.cpp Node.cpp State.cpp
+        // use queue
+        // pop one node check if final. if it is then assign it as final
+        // add to visited
+        // expand node. then add those nodes to frontier.
+        // Continue until queue is empty.
+        
+        // to expand maybe add that function to node? Return the new children to frontier
+
 ```
