@@ -9,22 +9,23 @@ using namespace std;
 void buildTree(Tree test)
 {
     // in Tree test.getFrontier() == this->frontier
-    queue<Node*> nodeFrontier = test.getFrontier();
-    Node* temp = NULL;
+    // queue<Node*> nodeFrontier = test.getFrontier();
+    Node* tempNode = NULL;
     if(test.getFrontier().empty())
     {
         cout << "FAILURE" << endl;
     }
-    while(!nodeFrontier.empty())
+    while(!test.getFrontier().empty())
     {
-        temp = nodeFrontier.front();
-        nodeFrontier.pop();
-        // if(temp.isInVisited())
-        // {
-        //     continue;
-        // }
-        temp->expand();
-        cout << "hello" << endl;
+        tempNode = test.getFrontier().front();
+        test.removeFromFrontier();
+        // tempNode = test.getFrontier().front();
+        // cout << tempNode->getStatePuzzle()[0] << endl;
+        // break;
+        tempNode->expand();
+        test.updateExplored(tempNode);
+        test.updateFrontier(tempNode);
+        // cout << "hello" << endl;
     }
 }
 

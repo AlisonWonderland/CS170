@@ -8,9 +8,20 @@ State::State()
 
 State::State(vector<int> puzzle)
 {
+    vector<int> defaulGoalPuzzle = {
+        1, 2,
+        3, 0
+    };
     this->puzzle = puzzle;
     // check puzzle here with function. can we use Problem here?
-    this->isFinal = false;
+    if(puzzle == defaulGoalPuzzle)
+    {
+        this->isFinal = true;
+    }
+    else
+    {
+        this->isFinal = false;
+    }
 }
 
 bool State::isFinalState()

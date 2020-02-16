@@ -4,7 +4,6 @@ using namespace std;
 class Problem
 {
     private:
-        vector<int> puzzle;
         vector<int> init_puzzle;
         vector<int> goal_puzzle;
     public:

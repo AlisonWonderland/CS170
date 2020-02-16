@@ -19,7 +19,13 @@ class Tree
         Tree();
         Tree(Node* root);
         queue<Node*> getFrontier();
-        void addFrontierNode();
-        void expandNode();
+        void removeFromFrontier();
+        void updateFrontier(Node* expandedNode);
+        void updateExplored(Node* expandedNode);
+        // void expandNode();
+        bool inExplored(Node* node);
+        void searchForSolution();
+        // check visited()
+        // then add it to frontier
 };
 #endif
