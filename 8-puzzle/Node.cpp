@@ -8,15 +8,22 @@ Node::Node()
     this->up = NULL;
     this->down = NULL;
     this->nodeState = State();
+    this->depth = 0;
 }
 
-Node::Node(vector<int> puzzle)
+Node::Node(vector<int> puzzle, int depth)
 {
     this->nodeState = State(puzzle);
     this->left = NULL; 
     this->right = NULL;
     this->up = NULL;
     this->down = NULL;
+    this->depth = depth;
+}
+
+int Node::getDepth()
+{
+    return this->depth;
 }
 
 Node* Node::getChild(string child)
@@ -65,14 +72,19 @@ vector<int> Node::getStatePuzzle()
     return this->nodeState.getPuzzle();
 }
 
-// generate childreen
+// calc cost here
 // could be simplified if using the children vector
 void Node::expand()
 {
+    // print node being expanded
+
     vector<int> puzzle = this->getStatePuzzle();
     vector<int> tempPuzzle = puzzle; 
     int tempInt = 0;
     int zeroPos = this->nodeState.getZeroPos();
+
+    printStatePuzzle(puzzle);
+    cout << "---Expanding this node" << endl;
 
     // move blank down
     if(zeroPos < (puzzle.size() / 2))
@@ -80,12 +92,12 @@ void Node::expand()
         tempInt = tempPuzzle.at(zeroPos);
         tempPuzzle.at(zeroPos) = tempPuzzle.at(zeroPos + 2);
         tempPuzzle.at(zeroPos + 2) = tempInt;
-        for(int i = 0; i < tempPuzzle.size(); ++i)
-        {
-            cout << tempPuzzle.at(i) << endl;
-        }
-        cout << "down" << endl;
-        this->down = new Node(tempPuzzle);
+        // for(int i = 0; i < tempPuzzle.size(); ++i)
+        // {
+        //     cout << tempPuzzle.at(i) << endl;
+        // }
+        // cout << "down" << endl;
+        this->down = new Node(tempPuzzle, this->getDepth() + 1);
     }
 
     // reset temp
@@ -97,12 +109,12 @@ void Node::expand()
         tempInt = tempPuzzle.at(zeroPos);
         tempPuzzle.at(zeroPos) = tempPuzzle.at(zeroPos + 1);
         tempPuzzle.at(zeroPos + 1) = tempInt;
-        for(int i = 0; i < tempPuzzle.size(); ++i)
-        {
-            cout << tempPuzzle.at(i) << endl;
-        }
-        cout << "right" << endl;
-        this->right = new Node(tempPuzzle);
+        // for(int i = 0; i < tempPuzzle.size(); ++i)
+        // {
+        //     cout << tempPuzzle.at(i) << endl;
+        // }
+        // cout << "right" << endl;
+        this->right = new Node(tempPuzzle, this->getDepth() + 1);
     }
 
     tempPuzzle = puzzle;
@@ -113,12 +125,12 @@ void Node::expand()
         tempInt = tempPuzzle.at(zeroPos);
         tempPuzzle.at(zeroPos) = tempPuzzle.at(zeroPos - 2);
         tempPuzzle.at(zeroPos - 2) = tempInt;
-        for(int i = 0; i < tempPuzzle.size(); ++i)
-        {
-            cout << tempPuzzle.at(i) << endl;
-        }
-        cout << "up" << endl;
-        this->up = new Node(tempPuzzle);
+        // for(int i = 0; i < tempPuzzle.size(); ++i)
+        // {
+        //     cout << tempPuzzle.at(i) << endl;
+        // }
+        // cout << "up" << endl;
+        this->up = new Node(tempPuzzle, this->getDepth() + 1);
     }
 
     tempPuzzle = puzzle;
@@ -128,16 +140,52 @@ void Node::expand()
         tempInt = tempPuzzle.at(zeroPos);
         tempPuzzle.at(zeroPos) = tempPuzzle.at(zeroPos - 1);
         tempPuzzle.at(zeroPos - 1) = tempInt;
-        for(int i = 0; i < tempPuzzle.size(); ++i)
-        {
-            cout << tempPuzzle.at(i) << endl;
-        }
-        cout << "left" << endl;
-        this->left = new Node(tempPuzzle);
+        // for(int i = 0; i < tempPuzzle.size(); ++i)
+        // {
+        //     cout << tempPuzzle.at(i) << endl;
+        // }
+        // cout << "left" << endl;
+        this->left = new Node(tempPuzzle, this->getDepth() + 1);
     }
 
     //add this node to visited
     // we do return them, then check if vistied, add non visited to frontier
+}
+
+bool Node::hasGoalState()
+{
+    return this->nodeState.isFinalState();
+}
+
+void Node::printStatePuzzle(vector<int> puzzle)
+{
+    // bool endOfRow = false;
+    for(int i = 1; i <= puzzle.size(); ++i)
+    {
+        cout << puzzle.at(i - 1) <<  " ";
+        // end of row
+        if((i % 2) == 0)
+        {
+            cout << endl;
+        }
+        // if(endOfRow)
+        // {
+        //     cout << endl;
+        //     endOfRow = !endOfRow;
+        // }
+    }
+}
+
+int Node::g()
+{
+    return this->depth;
+}
+
+int Node::h()
+{
+    // 0 for uniform
+    // calculate for A*
+    return 0;
 }
 
 // void Node::addChildren(Node* newChild)

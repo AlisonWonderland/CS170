@@ -12,12 +12,17 @@ class Tree
     private:
         // Problem puzzleToSolve; // never changes
         // vector<Node*> visited;
+        // int nodesExpanded;
+        int nodesInQueue;
+        int maxNodesInQueue;
         queue<Node*> frontier; // queue
         vector<Node*> explored;
         Node* root;
     public:
         Tree();
         Tree(Node* root);
+        // int getNodesExpanded();
+        int getMaxNumNodes();
         queue<Node*> getFrontier();
         void removeFromFrontier();
         void updateFrontier(Node* expandedNode);

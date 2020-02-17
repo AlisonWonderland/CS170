@@ -25,6 +25,12 @@ In the algo add it to frontier, then visited as we expand. add a visited check
 if expansion/ legal operations create children add them to frontier and tree. repeat this and previous line, until no more in frontier.
 ```
 
+## Note
+```
+Worry about final state only in test.cpp
+```
+
+
 ```
 compile: g++ test.cpp Tree.cpp Node.cpp State.cpp
         // use queue

@@ -16,16 +16,21 @@ class Node
         Node* up;
         Node* down;
         State nodeState;
-        // cost
+        int depth;
+        // g(n) cost could be depth
+        // h(type of heuristic string) cost 
     public:
         Node();
-        Node(vector<int> puzzle);
+        Node(vector<int> puzzle, int depth);
         Node* getChild(string child);
+        int getDepth();
         vector<int> getStatePuzzle();
         void expand();
+        bool hasGoalState();
+        void printStatePuzzle(vector<int> puzzle);
         // Nodegetchildren()
-        // int h();
-        // int g();
+        int h();
+        int g();
         // void addChildren(string moveDirection);
 };
 
