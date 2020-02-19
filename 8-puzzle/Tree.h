@@ -7,6 +7,12 @@
 #include "Node.h"
 using namespace std;
 
+struct CompareCosts{
+    bool operator()(Node* a, Node* b){
+        return (a->g() + a->h()) > (b->g() + b->h());
+    }
+};
+
 class Tree
 {
     private:
@@ -15,22 +21,26 @@ class Tree
         // int nodesExpanded;
         int nodesInQueue;
         int maxNodesInQueue;
-        queue<Node*> frontier; // queue
+        // for prio queue make a function that moves the node in the queue
+        priority_queue<Node*, vector<Node*>, CompareCosts> frontier; // queue
         vector<Node*> explored;
         Node* root;
+        // string heuristic;
     public:
         Tree();
+        // node and search type constructor
         Tree(Node* root);
         // int getNodesExpanded();
         int getMaxNumNodes();
-        queue<Node*> getFrontier();
+        priority_queue<Node*, vector<Node*>, CompareCosts> getFrontier();
         void removeFromFrontier();
         void updateFrontier(Node* expandedNode);
         void updateExplored(Node* expandedNode);
         // void expandNode();
         bool inExplored(Node* node);
         void searchForSolution();
-        // check visited()
-        // then add it to frontier
+        //void ucs()
+        //void misplacedSearch()
+        //void manhattanSearch()
 };
 #endif

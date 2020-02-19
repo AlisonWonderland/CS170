@@ -19,6 +19,7 @@ Tree::Tree(Node* root)
     this->maxNodesInQueue = 1;
     this->frontier.push(root);
     this->root = root;
+    // this->heuristic = heuristic;
 }
 
 // int Tree::getNodesExpanded()
@@ -30,7 +31,7 @@ int Tree::getMaxNumNodes()
     return this->maxNodesInQueue;
 }
 
-queue<Node*> Tree::getFrontier()
+priority_queue<Node*, vector<Node*>, CompareCosts> Tree::getFrontier()
 {
     return this->frontier;
 }

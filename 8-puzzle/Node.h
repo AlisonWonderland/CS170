@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
 #include "State.h"
 using namespace std;
 
@@ -11,23 +12,27 @@ class Node
 {
     private:
         // vector<Node*> children; // only if direction isn't needed
+        // node id?
         Node* left; 
         Node* right;
         Node* up;
         Node* down;
         State nodeState;
-        int depth;
+        int ucsCost;
+        int heuristicCost;
+        string heuristic;
         // g(n) cost could be depth
         // h(type of heuristic string) cost 
     public:
         Node();
-        Node(vector<int> puzzle, int depth);
+        Node(vector<int> puzzle, int ucsCost, string heuristic);
+        int calcHeuristic(string heuristic);
         Node* getChild(string child);
-        int getDepth();
+        // int getDepth();
         vector<int> getStatePuzzle();
         void expand();
         bool hasGoalState();
-        void printStatePuzzle(vector<int> puzzle);
+        void printStatePuzzle();
         // Nodegetchildren()
         int h();
         int g();

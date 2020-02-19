@@ -8,23 +8,78 @@ Node::Node()
     this->up = NULL;
     this->down = NULL;
     this->nodeState = State();
-    this->depth = 0;
+    this->ucsCost = 0;
+    this->heuristicCost = 0;
+    this->heuristic = "Ucs";
 }
 
-Node::Node(vector<int> puzzle, int depth)
+// don't have to cal heuristic for 
+Node::Node(vector<int> puzzle, int ucsCost, string heuristic)
 {
     this->nodeState = State(puzzle);
     this->left = NULL; 
     this->right = NULL;
     this->up = NULL;
     this->down = NULL;
-    this->depth = depth;
+    this->ucsCost = ucsCost;
+    this->heuristicCost = calcHeuristic(heuristic);
+    this->heuristic = heuristic;
+    // this->heuristicCost = calcHeuristic(puzzle);
 }
 
-int Node::getDepth()
+// calc heuristic after being expanded
+// change for 3 x 3 puzzle
+int Node::calcHeuristic(string heuristic)
 {
-    return this->depth;
+    if(heuristic == "Ucs")
+    {
+        return 0;
+    }
+
+    vector<int> goalPuzzle = {
+        1, 2,
+        3, 0
+    };
+    vector<int> nodePuzzle = this->getStatePuzzle();
+    int puzzleValue = 0;
+    int cost = 0; 
+    int row = 0; // nodePuzzle.at(i) % 3
+    int col = 0; // nodePuzzle.at
+
+    // puzzle col = i % 3 or i % 2
+    // puzzle row = floor(i / 3) or floor(i / 3)
+    // goal col = val - 1 % 3 or i % 2
+    // goal row = floor(val - 1/ 3) or floor(val - 1/ 3)
+    // https://stackoverflow.com/questions/39759721/calculating-the-manhattan-distance-in-the-eight-puzzle
+    if(heuristic == "Manhattan")
+    {
+        for(int i = 0; i < goalPuzzle.size(); ++i)
+        {
+            if(goalPuzzle.at(i) != nodePuzzle.at(i))
+            {
+                cost += abs((nodePuzzle.at(i)-1)%2 - i%2) + abs(floor((nodePuzzle.at(i)-1)%2) - floor(i/2));
+            }
+        }
+    }
+
+    else if(heuristic == "Misplaced Tile")
+    {
+        for(int i = 0; i < goalPuzzle.size(); ++i)
+        {
+            if((goalPuzzle.at(i) != nodePuzzle.at(i)) && (nodePuzzle.at(i) != 0))
+            {
+                ++cost;
+            }
+        }
+    }
+
+    return cost;
 }
+
+// int Node::getUcsCost()
+// {
+//     return this->ucsCost;
+// }
 
 Node* Node::getChild(string child)
 {
@@ -69,6 +124,7 @@ Node* Node::getChild(string child)
 
 vector<int> Node::getStatePuzzle()
 {
+    // printStatePuzzle(this->nodeState.getPuzzle());
     return this->nodeState.getPuzzle();
 }
 
@@ -83,7 +139,7 @@ void Node::expand()
     int tempInt = 0;
     int zeroPos = this->nodeState.getZeroPos();
 
-    printStatePuzzle(puzzle);
+    printStatePuzzle();
     cout << "---Expanding this node" << endl;
 
     // move blank down
@@ -97,7 +153,7 @@ void Node::expand()
         //     cout << tempPuzzle.at(i) << endl;
         // }
         // cout << "down" << endl;
-        this->down = new Node(tempPuzzle, this->getDepth() + 1);
+        this->down = new Node(tempPuzzle, this->g() + 1, this->heuristic);
     }
 
     // reset temp
@@ -114,7 +170,7 @@ void Node::expand()
         //     cout << tempPuzzle.at(i) << endl;
         // }
         // cout << "right" << endl;
-        this->right = new Node(tempPuzzle, this->getDepth() + 1);
+        this->right = new Node(tempPuzzle, this->g() + 1, this->heuristic);
     }
 
     tempPuzzle = puzzle;
@@ -130,7 +186,7 @@ void Node::expand()
         //     cout << tempPuzzle.at(i) << endl;
         // }
         // cout << "up" << endl;
-        this->up = new Node(tempPuzzle, this->getDepth() + 1);
+        this->up = new Node(tempPuzzle, this->g() + 1, this->heuristic);
     }
 
     tempPuzzle = puzzle;
@@ -145,7 +201,7 @@ void Node::expand()
         //     cout << tempPuzzle.at(i) << endl;
         // }
         // cout << "left" << endl;
-        this->left = new Node(tempPuzzle, this->getDepth() + 1);
+        this->left = new Node(tempPuzzle, this->g() + 1, this->heuristic);
     }
 
     //add this node to visited
@@ -157,8 +213,9 @@ bool Node::hasGoalState()
     return this->nodeState.isFinalState();
 }
 
-void Node::printStatePuzzle(vector<int> puzzle)
+void Node::printStatePuzzle()
 {
+    vector<int> puzzle = this->getStatePuzzle();
     // bool endOfRow = false;
     for(int i = 1; i <= puzzle.size(); ++i)
     {
@@ -178,14 +235,14 @@ void Node::printStatePuzzle(vector<int> puzzle)
 
 int Node::g()
 {
-    return this->depth;
+    return this->ucsCost;
 }
 
 int Node::h()
 {
     // 0 for uniform
     // calculate for A*
-    return 0;
+    return this->heuristicCost;
 }
 
 // void Node::addChildren(Node* newChild)
