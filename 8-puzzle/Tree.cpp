@@ -165,10 +165,19 @@ bool Tree::inExplored(Node* node)
     return false;
 }
 
-void searchForSolution()
+bool Tree::rootIsGoal()
 {
-    
+    return this->root->hasGoalState();
 }
+Node* Tree::getRoot()
+{
+    return this->root;
+}
+
+// void searchForSolution()
+// {
+    
+// }
 
 // void Tree::expandNode()
 // {

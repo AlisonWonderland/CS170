@@ -28,6 +28,7 @@ class Node
         Node(vector<int> puzzle, int ucsCost, string heuristic);
         int calcHeuristic(string heuristic);
         Node* getChild(string child);
+        vector<Node*> getChildren();
         // int getDepth();
         vector<int> getStatePuzzle();
         void expand();

@@ -4,37 +4,56 @@
 // #include "Node.h"
 using namespace std;
 
+void solutionFoundMsg(int nodesExpanded, int maxNodes)
+{
+    cout << "Goal!!!" << endl;
+    cout << "Number of nodes expanded: " << nodesExpanded << " nodes."<< endl;
+    cout << "Maximum number of nodes in queue at any one time was: " << maxNodes << endl;
+
+}
+
 // maybe put this in tree
-// uniform
+// uniform/BFS
 void buildTree(Tree test)
 {
+    cout << "Inital node: " << endl;
+
+    if(test.rootIsGoal())
+    {
+        test.getRoot()->printStatePuzzle();
+        solutionFoundMsg(0, 1);
+    }
+    // }
     // in Tree test.getFrontier() == this->frontier
     // queue<Node*> nodeFrontier = test.getFrontier();
     Node* tempNode = NULL;
+    Node* child = NULL;
+    vector<Node*> children;
     int nodesExpanded = 0;
+
     if(test.getFrontier().empty())
     {
         cout << "FAILURE, frontier empty/no root" << endl;
+        return;
     }
-
-    cout << "Inital node: " << endl;
 
     while(!test.getFrontier().empty())
     {
         tempNode = test.getFrontier().top();
         test.removeFromFrontier();
+        test.updateExplored(tempNode);
         // check if goal if not then expand
-        if(tempNode->hasGoalState())
-        {
-            if(nodesExpanded == 0)
-            {
-                tempNode->printStatePuzzle();
-            }
-            cout << "Goal!!!" << endl;
-            cout << "Number of nodes expanded: " << nodesExpanded << " nodes."<< endl;
-            cout << "Maximum number of nodes in queue at any one time was: " << test.getMaxNumNodes() << endl;
-            break;
-        }
+        // if(tempNode->hasGoalState())
+        // {
+        //     if(nodesExpanded == 0)
+        //     {
+        //         tempNode->printStatePuzzle();
+        //     }
+        //     cout << "Goal!!!" << endl;
+        //     cout << "Number of nodes expanded: " << nodesExpanded << " nodes."<< endl;
+        //     cout << "Maximum number of nodes in queue at any one time was: " << test.getMaxNumNodes() << endl;
+        //     break;
+        // }
         // tempNode = test.getFrontier().front();
         // cout << tempNode->getStatePuzzle()[0] << endl;
         // break;
@@ -44,8 +63,19 @@ void buildTree(Tree test)
                 << " and h(n) = " << tempNode->h() <<  " is ..." << endl;
         }
         tempNode->expand();
+        children = tempNode->getChildren();
+        for(int i = 0; i < children.size(); ++i)
+        {
+            child = children.at(i);
+            if(child->hasGoalState())
+            {
+                solutionFoundMsg(nodesExpanded, test.getMaxNumNodes());
+                return;
+            }
+        }
         ++nodesExpanded;
-        test.updateExplored(tempNode);
+        // test.updateExplored(tempNode);
+        // adding all children here
         test.updateFrontier(tempNode);
         // cout << "hello" << endl;
     }
@@ -53,6 +83,7 @@ void buildTree(Tree test)
 
 // create new tree class?
 // for prio queue:   https://stackoverflow.com/questions/2439283/how-can-i-create-min-stl-priority-queue
+// https://www.geeksforgeeks.org/a-search-algorithm/
 void aStar(Tree test)
 {
     Node* tempNode = NULL;
@@ -73,10 +104,10 @@ void aStar(Tree test)
     {
         tempNode = test.getFrontier().top();
         test.removeFromFrontier();
-        // check if goal if not then expand
+        // and if not greater than next node in frontier
         if(tempNode->hasGoalState())
         {
-            if()
+            // if()
             if(nodesExpanded == 0)
             {
                 tempNode->printStatePuzzle();
@@ -109,11 +140,11 @@ int main()
         1, 3
     };
 
-    // Node* root = new Node(defaultPuzzle2, 0, "Ucs");
+    Node* root = new Node(defaultPuzzle2, 0, "Ucs");
     // Node* root = new Node(defaultPuzzle2, 0, "Manhattan");
-    Node* root = new Node(defaultPuzzle2, 0, "Misplaced Tile");
+    // Node* root = new Node(defaultPuzzle2, 0, "Misplaced Tile");
     Tree testTree = Tree(root);
 
-    aStar(testTree);
+    buildTree(testTree);
     return 0;
 }

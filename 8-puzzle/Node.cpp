@@ -101,6 +101,29 @@ Node* Node::getChild(string child)
     }
 }
 
+vector<Node*> Node::getChildren()
+{
+    vector<Node*> children;
+    if(this->left != NULL)
+    {
+        children.push_back(this->left);
+    }
+    if(this->right != NULL)
+    {
+        children.push_back(this->right);
+    }
+    if(this->up != NULL)
+    {
+        children.push_back(this->up);
+    }
+    if(this->down != NULL)
+    {
+        children.push_back(this->down);
+    }
+
+    return children;
+}
+
 // not needed
 // void Node::setChild(string child, vector<int> puzzle)
 // {

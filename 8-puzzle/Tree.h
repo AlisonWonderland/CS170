@@ -39,6 +39,8 @@ class Tree
         // void expandNode();
         bool inExplored(Node* node);
         void searchForSolution();
+        bool rootIsGoal();
+        Node* getRoot();
         //void ucs()
         //void misplacedSearch()
         //void manhattanSearch()
