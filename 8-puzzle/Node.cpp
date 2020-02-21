@@ -53,11 +53,15 @@ int Node::calcHeuristic(string heuristic)
     // https://stackoverflow.com/questions/39759721/calculating-the-manhattan-distance-in-the-eight-puzzle
     if(heuristic == "Manhattan")
     {
+        // cout << "+++++++Manhattan+++++++" << endl;
+        // this->printStatePuzzle();
         for(int i = 0; i < goalPuzzle.size(); ++i)
         {
-            if(goalPuzzle.at(i) != nodePuzzle.at(i))
+            if((goalPuzzle.at(i) != nodePuzzle.at(i)) && (nodePuzzle.at(i) != 0))
             {
-                cost += abs((nodePuzzle.at(i)-1)%2 - i%2) + abs(floor((nodePuzzle.at(i)-1)%2) - floor(i/2));
+                // cout << "val: " << nodePuzzle.at(i) << endl;
+                // cout << "x: " << (nodePuzzle.at(i)-1)%2 << " y: " << floor((nodePuzzle.at(i)-1)/2) << endl;
+                cost += abs((nodePuzzle.at(i)-1)%2 - (i%2)) + abs(floor((nodePuzzle.at(i)-1)/2) - floor(i/2));
             }
         }
     }

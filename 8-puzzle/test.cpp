@@ -115,7 +115,7 @@ void aStar(Tree test)
             cout << "Goal!!!" << endl;
             cout << "Number of nodes expanded: " << nodesExpanded << " nodes."<< endl;
             cout << "Maximum number of nodes in queue at any one time was: " << test.getMaxNumNodes() << endl;
-            break;
+            return;
         }
         // tempNode = test.getFrontier().front();
         // cout << tempNode->getStatePuzzle()[0] << endl;
@@ -131,20 +131,23 @@ void aStar(Tree test)
         test.updateFrontier(tempNode);
         // cout << "hello" << endl;
     }
+
+    cout << endl;
+    cout << "*****NO SOLUTION*****" << endl;
 }
 
 int main() 
 {
     vector<int> defaultPuzzle2 = {
-        0, 2,
+        2, 0,
         1, 3
     };
 
-    Node* root = new Node(defaultPuzzle2, 0, "Ucs");
+    // Node* root = new Node(defaultPuzzle2, 0, "Ucs");
     // Node* root = new Node(defaultPuzzle2, 0, "Manhattan");
     // Node* root = new Node(defaultPuzzle2, 0, "Misplaced Tile");
     Tree testTree = Tree(root);
 
-    buildTree(testTree);
+    aStar(testTree);
     return 0;
 }
