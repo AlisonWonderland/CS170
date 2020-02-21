@@ -37,8 +37,9 @@ int Node::calcHeuristic(string heuristic)
     }
 
     vector<int> goalPuzzle = {
-        1, 2,
-        3, 0
+        1, 2, 3,
+        4, 5, 6,
+        7, 8, 0
     };
     vector<int> nodePuzzle = this->getStatePuzzle();
     int puzzleValue = 0;
@@ -61,7 +62,7 @@ int Node::calcHeuristic(string heuristic)
             {
                 // cout << "val: " << nodePuzzle.at(i) << endl;
                 // cout << "x: " << (nodePuzzle.at(i)-1)%2 << " y: " << floor((nodePuzzle.at(i)-1)/2) << endl;
-                cost += abs((nodePuzzle.at(i)-1)%2 - (i%2)) + abs(floor((nodePuzzle.at(i)-1)/2) - floor(i/2));
+                cost += abs((nodePuzzle.at(i)-1)%3 - (i%3)) + abs(floor((nodePuzzle.at(i)-1)/3) - floor(i/3));
             }
         }
     }
@@ -164,20 +165,25 @@ void Node::expand()
     vector<int> puzzle = this->getStatePuzzle();
     vector<int> tempPuzzle = puzzle; 
     int tempInt = 0;
-    int zeroPos = this->nodeState.getZeroPos();
+    int zeroIndex = this->nodeState.getZeroPos();
+    // cout << "zero: " << zeroIndex << endl;
 
     printStatePuzzle();
     cout << "---Expanding this node" << endl;
 
     // move blank down
-    if(zeroPos < (puzzle.size() / 2))
+    if(zeroIndex <= 5)
     {
-        tempInt = tempPuzzle.at(zeroPos);
-        tempPuzzle.at(zeroPos) = tempPuzzle.at(zeroPos + 2);
-        tempPuzzle.at(zeroPos + 2) = tempInt;
-        // for(int i = 0; i < tempPuzzle.size(); ++i)
+        tempInt = tempPuzzle.at(zeroIndex);
+        tempPuzzle.at(zeroIndex) = tempPuzzle.at(zeroIndex + 3);
+        tempPuzzle.at(zeroIndex + 3) = tempInt;
+        // for(int i = 1; i <= tempPuzzle.size(); ++i)
         // {
-        //     cout << tempPuzzle.at(i) << endl;
+        //     cout << tempPuzzle.at(i - 1) << " ";
+        //     if(i % 3 == 0)
+        //     {
+        //         cout << endl;
+        //     }
         // }
         // cout << "down" << endl;
         this->down = new Node(tempPuzzle, this->g() + 1, this->heuristic);
@@ -187,14 +193,18 @@ void Node::expand()
     tempPuzzle = puzzle;
 
     // move blank to right 
-    if((zeroPos == 0) || (zeroPos == 2))
+    if((zeroIndex == 0) || (zeroIndex == 3) || (zeroIndex == 6) || (zeroIndex == 1) || (zeroIndex == 4) || (zeroIndex == 7))
     {
-        tempInt = tempPuzzle.at(zeroPos);
-        tempPuzzle.at(zeroPos) = tempPuzzle.at(zeroPos + 1);
-        tempPuzzle.at(zeroPos + 1) = tempInt;
-        // for(int i = 0; i < tempPuzzle.size(); ++i)
+        tempInt = tempPuzzle.at(zeroIndex);
+        tempPuzzle.at(zeroIndex) = tempPuzzle.at(zeroIndex + 1);
+        tempPuzzle.at(zeroIndex + 1) = tempInt;
+        // for(int i = 1; i <= tempPuzzle.size(); ++i)
         // {
-        //     cout << tempPuzzle.at(i) << endl;
+        //     cout << tempPuzzle.at(i - 1) << " ";
+        //     if(i % 3 == 0)
+        //     {
+        //         cout << endl;
+        //     }
         // }
         // cout << "right" << endl;
         this->right = new Node(tempPuzzle, this->g() + 1, this->heuristic);
@@ -203,14 +213,18 @@ void Node::expand()
     tempPuzzle = puzzle;
 
     // move blank to up
-    if(zeroPos >= (puzzle.size() / 2))
+    if(zeroIndex >= (puzzle.size() / 3))
     {
-        tempInt = tempPuzzle.at(zeroPos);
-        tempPuzzle.at(zeroPos) = tempPuzzle.at(zeroPos - 2);
-        tempPuzzle.at(zeroPos - 2) = tempInt;
-        // for(int i = 0; i < tempPuzzle.size(); ++i)
+        tempInt = tempPuzzle.at(zeroIndex);
+        tempPuzzle.at(zeroIndex) = tempPuzzle.at(zeroIndex - 3);
+        tempPuzzle.at(zeroIndex - 3) = tempInt;
+        // for(int i = 1; i <= tempPuzzle.size(); ++i)
         // {
-        //     cout << tempPuzzle.at(i) << endl;
+        //     cout << tempPuzzle.at(i - 1) << " ";
+        //     if(i % 3 == 0)
+        //     {
+        //         cout << endl;
+        //     }
         // }
         // cout << "up" << endl;
         this->up = new Node(tempPuzzle, this->g() + 1, this->heuristic);
@@ -218,14 +232,18 @@ void Node::expand()
 
     tempPuzzle = puzzle;
     // move blank to left
-    if((zeroPos == 1) || (zeroPos == 3))
+    if((zeroIndex == 2) || (zeroIndex == 5) || (zeroIndex == 8) || (zeroIndex == 1) || (zeroIndex == 4) || (zeroIndex == 7))
     {
-        tempInt = tempPuzzle.at(zeroPos);
-        tempPuzzle.at(zeroPos) = tempPuzzle.at(zeroPos - 1);
-        tempPuzzle.at(zeroPos - 1) = tempInt;
-        // for(int i = 0; i < tempPuzzle.size(); ++i)
+        tempInt = tempPuzzle.at(zeroIndex);
+        tempPuzzle.at(zeroIndex) = tempPuzzle.at(zeroIndex - 1);
+        tempPuzzle.at(zeroIndex - 1) = tempInt;
+        // for(int i = 1; i <= tempPuzzle.size(); ++i)
         // {
-        //     cout << tempPuzzle.at(i) << endl;
+        //     cout << tempPuzzle.at(i - 1) << " ";
+        //     if(i % 3 == 0)
+        //     {
+        //         cout << endl;
+        //     }
         // }
         // cout << "left" << endl;
         this->left = new Node(tempPuzzle, this->g() + 1, this->heuristic);
@@ -248,7 +266,7 @@ void Node::printStatePuzzle()
     {
         cout << puzzle.at(i - 1) <<  " ";
         // end of row
-        if((i % 2) == 0)
+        if((i % 3) == 0)
         {
             cout << endl;
         }

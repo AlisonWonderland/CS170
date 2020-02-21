@@ -9,7 +9,7 @@ void solutionFoundMsg(int nodesExpanded, int maxNodes)
     cout << "Goal!!!" << endl;
     cout << "Number of nodes expanded: " << nodesExpanded << " nodes."<< endl;
     cout << "Maximum number of nodes in queue at any one time was: " << maxNodes << endl;
-
+    return;
 }
 
 void ucs(Tree test)
@@ -20,6 +20,7 @@ void ucs(Tree test)
     {
         test.getRoot()->printStatePuzzle();
         solutionFoundMsg(0, 1);
+        return;
     }
     // }
     // in Tree test.getFrontier() == this->frontier
@@ -70,7 +71,10 @@ void ucs(Tree test)
             child = children.at(i);
             if(child->hasGoalState())
             {
+                // cout << "********" << endl;
                 solutionFoundMsg(nodesExpanded, test.getMaxNumNodes());
+                // cout << "********" << endl;
+                // break;
                 return;
             }
         }
@@ -137,18 +141,49 @@ void aStar(Tree test)
 
 vector<int> getDefaultPuzzle()
 {
+    // 0 trivial
     // vector<int> defaultPuzzle = {
     //     1,2,3,
     //     4,5,6,
-    //     0,7,8
+    //     7,8,0
+    // };
+    // 1 very easy
+    // vector<int> defaultPuzzle = {
+    //     1,2,3,
+    //     4,5,6,
+    //     7,0,8
+    // };
+    // 2 easy
+    // vector<int> defaultPuzzle = {
+    //     1,2,0,
+    //     4,5,3,
+    //     7,8,6
+    // };
+    // 3 doable
+    vector<int> defaultPuzzle = {
+        0,1,2,
+        4,5,3,
+        7,8,6
+    };
+    // 4 oh boy
+    // vector<int> defaultPuzzle = {
+    //     8,7,1,
+    //     6,0,2,
+    //     5,4,3
+    // };
+    // 5 impossible
+    // vector<int> defaultPuzzle = {
+    //     8,7,1,
+    //     6,0,2,
+    //     5,4,3
     // };
 
-    vector<int> defaultPuzzle2 = {
-        2, 0,
-        1, 3
-    };
+    // vector<int> defaultPuzzle = {
+    //     2, 0,
+    //     1, 3
+    // };
 
-    return defaultPuzzle2;
+    return defaultPuzzle;
 }
 
 int main()
@@ -224,13 +259,13 @@ int main()
     }
     else if(algoChoice == 2)
     {
-        Node* root = new Node(userPuzzle, 0, "Manhattan");
+        Node* root = new Node(userPuzzle, 0, "Misplaced Tile");
         Tree testTree = Tree(root);
         aStar(testTree);
     }
     else if(algoChoice == 3)
     {
-        Node* root = new Node(userPuzzle, 0, "Misplaced Tile");
+        Node* root = new Node(userPuzzle, 0, "Manhattan");
         Tree testTree = Tree(root);
         aStar(testTree);
     }
