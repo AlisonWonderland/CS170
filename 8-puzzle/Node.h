@@ -11,8 +11,7 @@ using namespace std;
 class Node
 {
     private:
-        // vector<Node*> children; // only if direction isn't needed
-        // node id?
+        // vector<Node*> children; 
         Node* left; 
         Node* right;
         Node* up;
@@ -21,23 +20,18 @@ class Node
         int ucsCost;
         int heuristicCost;
         string heuristic;
-        // g(n) cost could be depth
-        // h(type of heuristic string) cost 
     public:
         Node();
         Node(vector<int> puzzle, int ucsCost, string heuristic);
         int calcHeuristic(string heuristic);
         Node* getChild(string child);
         vector<Node*> getChildren();
-        // int getDepth();
         vector<int> getStatePuzzle();
         void expand();
         bool hasGoalState();
         void printStatePuzzle();
-        // Nodegetchildren()
         int h();
         int g();
-        // void addChildren(string moveDirection);
 };
 
 #endif

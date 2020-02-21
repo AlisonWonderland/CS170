@@ -1,5 +1,4 @@
 #include <iostream>
-// #include <vector>
 #include "Tree.h"
 using namespace std;
 
@@ -22,9 +21,6 @@ void ucs(Tree test)
         solutionFoundMsg(0, 1);
         return;
     }
-    // }
-    // in Tree test.getFrontier() == this->frontier
-    // queue<Node*> nodeFrontier = test.getFrontier();
     Node* tempNode = NULL;
     Node* child = NULL;
     vector<Node*> children;
@@ -41,21 +37,6 @@ void ucs(Tree test)
         tempNode = test.getFrontier().top();
         test.removeFromFrontier();
         test.updateExplored(tempNode);
-        // check if goal if not then expand
-        // if(tempNode->hasGoalState())
-        // {
-        //     if(nodesExpanded == 0)
-        //     {
-        //         tempNode->printStatePuzzle();
-        //     }
-        //     cout << "Goal!!!" << endl;
-        //     cout << "Number of nodes expanded: " << nodesExpanded << " nodes."<< endl;
-        //     cout << "Maximum number of nodes in queue at any one time was: " << test.getMaxNumNodes() << endl;
-        //     break;
-        // }
-        // tempNode = test.getFrontier().front();
-        // cout << tempNode->getStatePuzzle()[0] << endl;
-        // break;
         if(nodesExpanded > 0)
         {
             cout << "The best state to expand with a g(n) = " << tempNode->g() 
@@ -71,20 +52,14 @@ void ucs(Tree test)
             child = children.at(i);
             if(child->hasGoalState())
             {
-                // cout << "********" << endl;
                 solutionFoundMsg(nodesExpanded, test.getMaxNumNodes());
-                // cout << "********" << endl;
-                // break;
                 return;
             }
         }
-        // test.updateExplored(tempNode);
-        // adding all children here
         test.updateFrontier(tempNode);
     }
 }
 
-// create new tree class?
 // for prio queue:   https://stackoverflow.com/questions/2439283/how-can-i-create-min-stl-priority-queue
 // https://www.geeksforgeeks.org/a-search-algorithm/
 void aStar(Tree test)
@@ -92,9 +67,8 @@ void aStar(Tree test)
     Node* tempNode = NULL;
     int nodesExpanded = 0;
 
-    // initalize to large value so that we can compare it with the actual smaller costs of the nodes
-    int prevGoalCost = 1000000;
-    int currGoalCost = 0;
+    // int prevGoalCost = 1000000;
+    // int currGoalCost = 0;
 
     if(test.getFrontier().empty())
     {
@@ -107,10 +81,9 @@ void aStar(Tree test)
     {
         tempNode = test.getFrontier().top();
         test.removeFromFrontier();
-        // and if not greater than next node in frontier
+
         if(tempNode->hasGoalState())
         {
-            // if()
             if(nodesExpanded == 0)
             {
                 tempNode->printStatePuzzle();
@@ -120,9 +93,7 @@ void aStar(Tree test)
             cout << "Maximum number of nodes in queue at any one time was: " << test.getMaxNumNodes() << endl;
             return;
         }
-        // tempNode = test.getFrontier().front();
-        // cout << tempNode->getStatePuzzle()[0] << endl;
-        // break;
+
         if(nodesExpanded > 0)
         {
             cout << "The best state to expand with a g(n) = " << tempNode->g() 
@@ -132,7 +103,6 @@ void aStar(Tree test)
         ++nodesExpanded;
         test.updateExplored(tempNode);
         test.updateFrontier(tempNode);
-        // cout << "hello" << endl;
     }
 
     cout << endl;
@@ -154,17 +124,17 @@ vector<int> getDefaultPuzzle()
     //     7,0,8
     // };
     // 2 easy
-    // vector<int> defaultPuzzle = {
-    //     1,2,0,
-    //     4,5,3,
-    //     7,8,6
-    // };
-    // 3 doable
     vector<int> defaultPuzzle = {
-        0,1,2,
+        1,2,0,
         4,5,3,
         7,8,6
     };
+    // 3 doable
+    // vector<int> defaultPuzzle = {
+    //     0,1,2,
+    //     4,5,3,
+    //     7,8,6
+    // };
     // 4 oh boy
     // vector<int> defaultPuzzle = {
     //     8,7,1,
@@ -192,7 +162,6 @@ int main()
     int number = 0;
     int algoChoice = 0;
     vector<int> userPuzzle;
-    // int* userPuzzle;
 
     cout << "Welcome to mlean002s 8-puzzle solver.\n"
         << "Type \"1\" to use a default puzzle or \"2\" to enter your own puzzle." 
@@ -203,46 +172,44 @@ int main()
     if(userChoice == 1) 
     {
         userPuzzle = getDefaultPuzzle();
-        // cout << userPuzzle[0] << endl;
     }
 
-    // else if(userChoice == 2) 
-    // {
-    //     cout << "Enter your puzzle, use a zero to represent the blank" << endl;
-    //     cout << "Enter the first row, use space or tabs between numbers:" << endl;
-    //     for(int i = 0; i < 3; ++i)
-    //     {
-    //         cin >> number;
-    //         userPuzzle.push_back(number);
-    //     }
-    //     cout << "Enter the second row, use space or tabs between numbers:" << endl;
-    //     for(int i = 0; i < 3; ++i)
-    //     {
-    //         cin >> number;
-    //         userPuzzle.push_back(number);
-    //     }
-    //     cout << "Enter the third row, use space or tabs between numbers:" << endl;
-    //     for(int i = 0; i < 3; ++i)
-    //     {
-    //         cin >> number;
-    //         userPuzzle.push_back(number);
-    //     }
+    else if(userChoice == 2) 
+    {
+        cout << "Enter your puzzle, use a zero to represent the blank" << endl;
+        cout << "Enter the first row, use space or tabs between numbers:" << endl;
+        for(int i = 0; i < 3; ++i)
+        {
+            cin >> number;
+            userPuzzle.push_back(number);
+        }
+        cout << "Enter the second row, use space or tabs between numbers:" << endl;
+        for(int i = 0; i < 3; ++i)
+        {
+            cin >> number;
+            userPuzzle.push_back(number);
+        }
+        cout << "Enter the third row, use space or tabs between numbers:" << endl;
+        for(int i = 0; i < 3; ++i)
+        {
+            cin >> number;
+            userPuzzle.push_back(number);
+        }
 
-    //     int len = 0;
-    //     cout << "Confirming your puzzle: " << endl;
-    //     for(int i = 0; i < userPuzzle.size(); ++i)
-    //     {
-    //         cout << userPuzzle[i] << " ";
-    //         ++len;
-    //         if((len % 3 == 0) && (len != 0))
-    //         {
-    //             cout << endl;
-    //         }
-    //     }
-    // }
+        int len = 0;
+        cout << "Confirming your puzzle: " << endl;
+        for(int i = 0; i < userPuzzle.size(); ++i)
+        {
+            cout << userPuzzle[i] << " ";
+            ++len;
+            if((len % 3 == 0) && (len != 0))
+            {
+                cout << endl;
+            }
+        }
+    }
 
     cout << endl;
-    // Set the game up
     cout << "Enter your choice of algorithm\n"
         << "1) Uniform Cost Search\n"
         << "2) A* with the Misplaced Tile heuristic.\n"

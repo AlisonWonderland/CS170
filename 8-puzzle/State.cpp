@@ -2,23 +2,19 @@
 
 State::State()
 {
-    // this->puzzle = puzzle;
     this->isFinal = false;
 }
 
 State::State(vector<int> puzzle)
 {
-    // vector<int> defaulGoalPuzzle = {
-    //     1, 2,
-    //     3, 0
-    // };
     vector<int> defaulGoalPuzzle = {
         1, 2, 3,
         4, 5, 6,
         7, 8, 0
     };
+    
     this->puzzle = puzzle;
-    // check puzzle here with function. can we use Problem here?
+
     if(puzzle == defaulGoalPuzzle)
     {
         this->isFinal = true;
