@@ -28,7 +28,7 @@ class Tree
         void updateFrontier(Node* expandedNode);
         void updateExplored(Node* expandedNode);
         bool inExplored(Node* node);
-        void searchForSolution();
+        // void searchForSolution();
         bool rootIsGoal();
         Node* getRoot();
 };

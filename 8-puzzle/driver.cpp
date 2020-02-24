@@ -2,8 +2,30 @@
 #include "Tree.h"
 using namespace std;
 
+void printTrace(Node* goalNode)
+{
+    Node* temp = goalNode;
+    vector<Node*> trace;
+    trace.push_back(goalNode);
 
-void solutionFoundMsg(int nodesExpanded, int maxNodes)
+    while(temp->getParent() != NULL)
+    {
+        trace.push_back(temp->getParent());
+        temp = temp->getParent();
+    }
+
+    cout << endl;
+    cout << "++++++++++++++++++++TRACE++++++++++++++++++++" << endl;
+    cout << endl;
+
+    for(int i = trace.size() - 1; i >= 0; --i)
+    {
+        trace.at(i)->printStatePuzzle();
+        cout << endl;
+    }
+}
+
+void solutionFound(int nodesExpanded, int maxNodes)
 {
     cout << "Goal!!!" << endl;
     cout << "Number of nodes expanded: " << nodesExpanded << " nodes."<< endl;
@@ -18,7 +40,8 @@ void ucs(Tree test)
     if(test.rootIsGoal())
     {
         test.getRoot()->printStatePuzzle();
-        solutionFoundMsg(0, 1);
+        solutionFound(0, 1);
+        printTrace(test.getRoot());
         return;
     }
     Node* tempNode = NULL;
@@ -52,7 +75,8 @@ void ucs(Tree test)
             child = children.at(i);
             if(child->hasGoalState())
             {
-                solutionFoundMsg(nodesExpanded, test.getMaxNumNodes());
+                solutionFound(nodesExpanded, test.getMaxNumNodes());
+                printTrace(child);
                 return;
             }
         }
@@ -91,6 +115,7 @@ void aStar(Tree test)
             cout << "Goal!!!" << endl;
             cout << "Number of nodes expanded: " << nodesExpanded << " nodes."<< endl;
             cout << "Maximum number of nodes in queue at any one time was: " << test.getMaxNumNodes() << endl;
+            printTrace(tempNode);
             return;
         }
 
@@ -112,11 +137,11 @@ void aStar(Tree test)
 vector<int> getDefaultPuzzle()
 {
     // 0 trivial
-    // vector<int> defaultPuzzle = {
-    //     1,2,3,
-    //     4,5,6,
-    //     7,8,0
-    // };
+    vector<int> defaultPuzzle = {
+        1,2,3,
+        4,5,6,
+        7,8,0
+    };
     // 1 very easy
     // vector<int> defaultPuzzle = {
     //     1,2,3,
@@ -124,11 +149,11 @@ vector<int> getDefaultPuzzle()
     //     7,0,8
     // };
     // 2 easy
-    vector<int> defaultPuzzle = {
-        1,2,0,
-        4,5,3,
-        7,8,6
-    };
+    // vector<int> defaultPuzzle = {
+    //     1,2,0,
+    //     4,5,3,
+    //     7,8,6
+    // };
     // 3 doable
     // vector<int> defaultPuzzle = {
     //     0,1,2,
@@ -143,9 +168,9 @@ vector<int> getDefaultPuzzle()
     // };
     // 5 impossible
     // vector<int> defaultPuzzle = {
-    //     8,7,1,
-    //     6,0,2,
-    //     5,4,3
+    //     1,2,3,
+    //     4,5,6,
+    //     8,7,0
     // };
 
     // vector<int> defaultPuzzle = {

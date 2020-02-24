@@ -7,19 +7,21 @@ Node::Node()
     this->right = NULL;
     this->up = NULL;
     this->down = NULL;
+    this->parent = NULL;
     this->nodeState = State();
     this->ucsCost = 0;
     this->heuristicCost = 0;
     this->heuristic = "Ucs";
 }
 
-Node::Node(vector<int> puzzle, int ucsCost, string heuristic)
+Node::Node(vector<int> puzzle, int ucsCost, string heuristic, Node* parent)
 {
     this->nodeState = State(puzzle);
     this->left = NULL; 
     this->right = NULL;
     this->up = NULL;
     this->down = NULL;
+    this->parent = parent;
     this->ucsCost = ucsCost;
     this->heuristicCost = calcHeuristic(heuristic);
     this->heuristic = heuristic;
@@ -112,6 +114,11 @@ vector<Node*> Node::getChildren()
     return children;
 }
 
+Node* Node::getParent()
+{
+    return this->parent;
+}
+
 
 vector<int> Node::getStatePuzzle()
 {
@@ -135,7 +142,8 @@ void Node::expand()
         tempInt = tempPuzzle.at(zeroIndex);
         tempPuzzle.at(zeroIndex) = tempPuzzle.at(zeroIndex + 3);
         tempPuzzle.at(zeroIndex + 3) = tempInt;
-        this->down = new Node(tempPuzzle, this->g() + 1, this->heuristic);
+        this->down = new Node(tempPuzzle, this->g() + 1, this->heuristic, this);
+        // setParent(this->down, this);
     }
 
     // reset temp
@@ -147,7 +155,8 @@ void Node::expand()
         tempInt = tempPuzzle.at(zeroIndex);
         tempPuzzle.at(zeroIndex) = tempPuzzle.at(zeroIndex + 1);
         tempPuzzle.at(zeroIndex + 1) = tempInt;
-        this->right = new Node(tempPuzzle, this->g() + 1, this->heuristic);
+        this->right = new Node(tempPuzzle, this->g() + 1, this->heuristic, this);
+        // setParent(this->right, this);
     }
 
     tempPuzzle = puzzle;
@@ -158,7 +167,8 @@ void Node::expand()
         tempInt = tempPuzzle.at(zeroIndex);
         tempPuzzle.at(zeroIndex) = tempPuzzle.at(zeroIndex - 3);
         tempPuzzle.at(zeroIndex - 3) = tempInt;
-        this->up = new Node(tempPuzzle, this->g() + 1, this->heuristic);
+        this->up = new Node(tempPuzzle, this->g() + 1, this->heuristic, this);
+        // setParent(this->up, this);
     }
 
     tempPuzzle = puzzle;
@@ -168,7 +178,8 @@ void Node::expand()
         tempInt = tempPuzzle.at(zeroIndex);
         tempPuzzle.at(zeroIndex) = tempPuzzle.at(zeroIndex - 1);
         tempPuzzle.at(zeroIndex - 1) = tempInt;
-        this->left = new Node(tempPuzzle, this->g() + 1, this->heuristic);
+        this->left = new Node(tempPuzzle, this->g() + 1, this->heuristic, this);
+        // setParent(this->left, this);
     }
 }
 
