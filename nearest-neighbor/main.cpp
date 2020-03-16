@@ -3,6 +3,7 @@
 #include <vector>
 #include "knn.h"
 #include "Validator.h"
+#include <ctime>
 using namespace std;
 
 void testKNN()
@@ -27,6 +28,9 @@ int main()
     int algoChoice = 0;
     string testFile;
     vector<int> userPuzzle;
+
+    clock_t start;
+    double duration;
 
     // remove when done;
     // testKNN();
@@ -61,7 +65,9 @@ int main()
         << " features, I get an accuracy of " << validator.fullSetAccuracy() << "%" << endl;
 
     cout << endl;
-    
+
+    start = clock();
+
     if(userChoice == 1) 
     {
         // use forward
@@ -74,6 +80,9 @@ int main()
         validator.validate("backwards");
     }
 
+    duration = (clock() - start) / (double) CLOCKS_PER_SEC;
+
+    cout<<"Duration: "<< duration << " seconds" << endl;
     
     return 0;
 }
