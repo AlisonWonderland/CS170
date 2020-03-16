@@ -14,7 +14,8 @@ void testKNN()
 
 void testValidator()
 {
-    Validator test("cs_170_small80.txt");
+    Validator test("cs_170_large16.txt");
+    test.validate("forwards");
     // cout << test.printData() << endl;
     exit(0);
 }
@@ -29,13 +30,15 @@ int main()
 
     // remove when done;
     // testKNN();
-    testValidator();
+    // testValidator();
+    // Validator vali("cs_170_large16.txt");
 
     cout << "Welcome to Marcos Leandro's Feature Selection Algorithm.\n"
-        << "Type in the name of the file to test:  ";
+        << "Type in the name of the file to test(\"cs_170_\" will be appended to the front of name):  ";
     
     cin >> testFile;
 
+    Validator validator("cs_170_" + testFile);
     // read in file data.
 
     cout << "Type the number of the algorithm you want to run." 
@@ -47,22 +50,28 @@ int main()
 
     cin >> userChoice;
 
-    cout << "This dataset has " 
+    cout << endl << "This dataset has " << validator.getFeatures()
         << " features (not including the class attribute), with " 
-        << "instances" << endl;
+        << validator.getInstances() << " instances" << endl;
 
-    cout << "Please wait while I normalize the data...     ";
+    cout << "Please wait while I normalize the data...    Done" << endl;
     // normalize data
-    cout << "";
 
+    cout << "Running nearest neighbor will all " <<  validator.getFeatures() 
+        << " features, I get an accuracy of " << validator.fullSetAccuracy() << "%" << endl;
+
+    cout << endl;
+    
     if(userChoice == 1) 
     {
         // use forward
+        validator.validate("forwards");
     }
 
     else if(userChoice == 2) 
     {
         // use backward
+        validator.validate("backwards");
     }
 
     

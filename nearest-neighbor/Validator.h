@@ -11,11 +11,23 @@ class Validator
         vector<vector<double>> dataset; // maybe use this
         // vector<string> dataset;
         // vector<double> 
-        // int cols;
-        // int rows;
+        int datasetCols;
+        int datasetRows;
     public:
         Validator();
         Validator(string);
-        // double findNNClass();
+        void normalize();
+        // create forwards/backwards()
+        // create outputstream test function.
+        void validate(string);
+        // returns accuracy percentage of features used
+        double findNNClass(vector<int>, int, int);
+        vector<vector<int>> backwards(vector<int>);
+        vector<vector<int>> forwards(vector<int>);
+        void printFeatures(vector<int>);
+        void printFeaturesSet(vector<vector<int>>);
+        double fullSetAccuracy();
+        int getFeatures(); // cols
+        int getInstances(); // rows
 };
 #endif
